@@ -1,5 +1,5 @@
 ---
-name: compress
+name: iceage-compress
 description: >
   Compress natural language memory files (CLAUDE.md, todos, preferences) into iceage format
   to save input tokens. Preserves all technical substance, code, URLs, and structure.
@@ -19,11 +19,11 @@ Compress natural language files (CLAUDE.md, todos, preferences) into iceage-spea
 
 ## Process
 
-1. This SKILL.md lives alongside `go/` in the same directory. Find that directory.
+1. The compression tool lives in `iceage-compress/go/` (adjacent to this SKILL.md). If the path is not immediately available, search for `iceage-compress/go/main.go`.
 
 2. Run:
 
-cd <directory_containing_this_SKILL.md>/go && go run . <absolute_filepath>
+cd iceage-compress/go && go run . <absolute_filepath>
 
 3. The CLI will:
 - detect file type (no tokens)
@@ -104,7 +104,7 @@ Compressed:
 ## Boundaries
 
 - ONLY compress natural language files (.md, .txt, extensionless)
-- NEVER modify: .py, .js, .ts, .json, .yaml, .yml, .toml, .env, .lock, .css, .html, .xml, .sql, .sh, .go
+- NEVER modify: .js, .ts, .json, .yaml, .yml, .toml, .env, .lock, .css, .html, .xml, .sql, .sh, .go
 - If file has mixed content (prose + code), compress ONLY the prose sections
 - If unsure whether something is code or prose, leave it unchanged
 - Original file is backed up as FILE.original.md before overwriting

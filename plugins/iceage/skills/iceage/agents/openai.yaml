@@ -1,0 +1,6 @@
+interface:
+  display_name: "Iceage"
+  short_description: "Talk like iceage. Cut filler. Keep technical accuracy."
+  icon_small: "./assets/iceage-small.svg"
+  icon_large: "./assets/iceage.svg"
+  default_prompt: "Use $iceage to answer briefly, cut filler, and preserve exact technical substance."

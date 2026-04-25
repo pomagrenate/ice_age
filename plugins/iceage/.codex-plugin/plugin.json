@@ -1,0 +1,39 @@
+{
+  "name": "iceage",
+  "version": "0.1.0",
+  "description": "Ultra-compressed communication mode. Cut filler. Keep technical accuracy.",
+  "author": {
+    "name": "Julius Brussee",
+    "url": "https://github.com/JuliusBrussee"
+  },
+  "homepage": "https://github.com/JuliusBrussee/iceage",
+  "repository": "https://github.com/JuliusBrussee/iceage",
+  "license": "MIT",
+  "keywords": [
+    "productivity",
+    "communication",
+    "brevity",
+    "writing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Iceage",
+    "shortDescription": "Talk like iceage. Cut filler. Keep technical accuracy.",
+    "longDescription": "Ultra-compressed communication mode for Codex. Use fewer words. Keep exact technical substance.",
+    "developerName": "Julius Brussee",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://github.com/JuliusBrussee/iceage",
+    "privacyPolicyURL": "https://github.com/JuliusBrussee/iceage/blob/main/README.md",
+    "termsOfServiceURL": "https://github.com/JuliusBrussee/iceage/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Use iceage mode. Cut filler. Keep technical accuracy."
+    ],
+    "composerIcon": "./assets/iceage-small.svg",
+    "logo": "./assets/iceage.svg",
+    "screenshots": [],
+    "brandColor": "#6B7280"
+  }
+}
