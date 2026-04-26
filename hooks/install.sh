@@ -2,7 +2,7 @@
 # iceage — one-command hook installer for Claude Code
 # Installs: SessionStart hook (auto-load rules) + UserPromptSubmit hook (mode tracking)
 # Usage: bash hooks/install.sh
-#   or:  bash <(curl -s https://raw.githubusercontent.com/JuliusBrussee/iceage/main/hooks/install.sh)
+#   or:  bash <(curl -s https://raw.githubusercontent.com/pomagrenate/iceage/main/hooks/install.sh)
 #   or:  bash hooks/install.sh --force   (re-install over existing hooks)
 set -e
 
@@ -35,7 +35,7 @@ fi
 CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 HOOKS_DIR="$CLAUDE_DIR/hooks"
 SETTINGS="$CLAUDE_DIR/settings.json"
-REPO_URL="https://raw.githubusercontent.com/JuliusBrussee/iceage/main/hooks"
+REPO_URL="https://raw.githubusercontent.com/pomagrenate/iceage/main/hooks"
 
 HOOK_FILES=("package.json" "iceage-config.js" "iceage-activate.js" "iceage-mode-tracker.js" "iceage-statusline.sh")
 

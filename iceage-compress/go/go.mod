@@ -1,4 +1,4 @@
-module github.com/JuliusBrussee/iceage/compress
+module github.com/pomagrenate/iceage/compress
 
 go 1.22
 

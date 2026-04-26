@@ -1,4 +1,4 @@
-module github.com/JuliusBrussee/iceage/benchmarks
+module github.com/pomagrenate/iceage/benchmarks
 
 go 1.22
 

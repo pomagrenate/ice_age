@@ -4,10 +4,10 @@
   "description": "Ultra-compressed communication mode. Cut filler. Keep technical accuracy.",
   "author": {
     "name": "Julius Brussee",
-    "url": "https://github.com/JuliusBrussee"
+    "url": "https://github.com/pomagrenate"
   },
-  "homepage": "https://github.com/JuliusBrussee/iceage",
-  "repository": "https://github.com/JuliusBrussee/iceage",
+  "homepage": "https://github.com/pomagrenate/iceage",
+  "repository": "https://github.com/pomagrenate/iceage",
   "license": "MIT",
   "keywords": [
     "productivity",
@@ -25,9 +25,9 @@
     "capabilities": [
       "Write"
     ],
-    "websiteURL": "https://github.com/JuliusBrussee/iceage",
-    "privacyPolicyURL": "https://github.com/JuliusBrussee/iceage/blob/main/README.md",
-    "termsOfServiceURL": "https://github.com/JuliusBrussee/iceage/blob/main/LICENSE",
+    "websiteURL": "https://github.com/pomagrenate/iceage",
+    "privacyPolicyURL": "https://github.com/pomagrenate/iceage/blob/main/README.md",
+    "termsOfServiceURL": "https://github.com/pomagrenate/iceage/blob/main/LICENSE",
     "defaultPrompt": [
       "Use iceage mode. Cut filler. Keep technical accuracy."
     ],

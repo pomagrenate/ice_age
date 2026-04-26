@@ -1,3 +1,3 @@
-module github.com/JuliusBrussee/iceage/tests
+module github.com/pomagrenate/iceage/tests
 
 go 1.22

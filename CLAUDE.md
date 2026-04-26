@@ -172,7 +172,7 @@ How iceage reaches each agent type:
 | Windsurf | `.windsurf/rules/iceage.md` with `trigger: always_on` | Yes — always-on rule |
 | Cline | `.clinerules/iceage.md` (auto-discovered) | Yes — Cline injects all .clinerules files |
 | Copilot | `.github/copilot-instructions.md` + `AGENTS.md` | Yes — repo-wide instructions |
-| Others | `npx skills add JuliusBrussee/iceage` | No — user must say `/iceage` each session |
+| Others | `npx skills add pomagrenate/iceage` | No — user must say `/iceage` each session |
 
 For agents without hook systems, minimal always-on snippet lives in README under "Want it always on?" — keep current with `rules/iceage-activate.md`.
 

@@ -1,14 +1,12 @@
 <div align="center">
-  <img src="assets/iceage.svg" alt="iceage" width="120" />
+  <img src="assets/iceage.png" alt="iceage" width="120" />
   <h1>iceage</h1>
   <p><strong>AI agents that speak like mammoth hunters. Less words. Same brain.</strong></p>
 
-  ![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)
   ![Node](https://img.shields.io/badge/Node-hooks-339933?logo=node.js&logoColor=white)
-  ![Claude Code](https://img.shields.io/badge/Claude_Code-plugin-D97706?logo=anthropic&logoColor=white)
+  ![Claude Code](https://img.shields.io/badge/Claude_Code-hooks+skills-D97706?logo=anthropic&logoColor=white)
   ![Cursor](https://img.shields.io/badge/Cursor-rule-black?logo=cursor&logoColor=white)
   ![Windsurf](https://img.shields.io/badge/Windsurf-rule-0EA5E9)
-  ![Codex](https://img.shields.io/badge/Codex-plugin-412991?logo=openai&logoColor=white)
   ![Gemini](https://img.shields.io/badge/Gemini_CLI-extension-4285F4?logo=google&logoColor=white)
 </div>
 
@@ -30,45 +28,168 @@ Same fix. ~75% fewer tokens. Every response.
 
 ## Install
 
-### Claude Code (auto-activates, hooks + statusline badge)
+Clone the repo first:
 
 ```bash
-claude plugin install pomagrenate/ice_age
+git clone https://github.com/pomagrenate/iceage.git
+cd iceage
 ```
 
-Or standalone hooks only (no plugin system needed):
+Then follow the section for your agent below.
+
+---
+
+### Claude Code
+
+Claude Code needs three things: **hooks** (auto-activates on every session), **skills** (gives you `/iceage`, `/iceage-review`, etc. as slash commands), and optionally **commands** (alternative slash command style).
+
+#### Step 1 — Hooks (auto-activation + statusline badge)
+
+Hooks run automatically on every session start. They inject the iceage ruleset as hidden context and track which mode you're in.
+
+**macOS / Linux:**
+```bash
+bash hooks/install.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+powershell -ExecutionPolicy Bypass -File hooks\install.ps1
+```
+
+This copies hook files to `~/.claude/hooks/`, registers `SessionStart` and `UserPromptSubmit` hooks in `~/.claude/settings.json`, and configures the `[ICEAGE]` statusline badge. Backs up `settings.json` before touching it.
+
+To uninstall:
+```bash
+bash hooks/uninstall.sh          # macOS / Linux
+.\hooks\uninstall.ps1            # Windows
+```
+
+**Requirements:** Node.js must be installed (`node --version` should work).
+
+#### Step 2 — Skills (slash commands)
+
+Skills give you `/iceage`, `/iceage lite`, `/iceage ultra`, `/iceage-review`, `/iceage-commit`, and `/iceage-help` as slash commands in Claude Code.
+
+**macOS / Linux:**
+```bash
+mkdir -p ~/.claude/skills/iceage \
+         ~/.claude/skills/iceage-review \
+         ~/.claude/skills/iceage-commit \
+         ~/.claude/skills/iceage-help
+
+cp skills/iceage/SKILL.md        ~/.claude/skills/iceage/SKILL.md
+cp skills/iceage-review/SKILL.md ~/.claude/skills/iceage-review/SKILL.md
+cp skills/iceage-commit/SKILL.md ~/.claude/skills/iceage-commit/SKILL.md
+cp skills/iceage-help/SKILL.md   ~/.claude/skills/iceage-help/SKILL.md
+```
+
+**Windows (PowerShell):**
+```powershell
+$d = "$env:USERPROFILE\.claude\skills"
+New-Item -ItemType Directory -Force "$d\iceage","$d\iceage-review","$d\iceage-commit","$d\iceage-help"
+
+Copy-Item skills\iceage\SKILL.md        "$d\iceage\SKILL.md"
+Copy-Item skills\iceage-review\SKILL.md "$d\iceage-review\SKILL.md"
+Copy-Item skills\iceage-commit\SKILL.md "$d\iceage-commit\SKILL.md"
+Copy-Item skills\iceage-help\SKILL.md   "$d\iceage-help\SKILL.md"
+```
+
+Restart Claude Code after copying. Skills appear when you type `/` in the chat input.
+
+#### Step 3 — Commands (optional)
+
+Commands are an alternative slash-command mechanism. Install alongside skills or instead of them.
+
+**macOS / Linux:**
+```bash
+mkdir -p ~/.claude/commands
+cp commands/*.toml ~/.claude/commands/
+```
+
+**Windows (PowerShell):**
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\commands"
+Copy-Item commands\*.toml "$env:USERPROFILE\.claude\commands\"
+```
+
+#### Step 4 — Always-on rule (optional, per project)
+
+To activate iceage automatically in a specific project without hooks, copy the rule file into your project:
 
 ```bash
-bash hooks/install.sh        # macOS / Linux
-hooks\install.ps1            # Windows PowerShell
+mkdir -p .claude/rules
+cp rules/iceage-activate.md .claude/rules/iceage-activate.md
 ```
 
-### Cursor / Windsurf / Cline / Copilot (always-on rule)
+Claude Code loads all `.claude/rules/*.md` files as system context on every session in that project.
 
-Rules are already in this repo. Clone it into your project or workspace:
+---
+
+### Cursor
 
 ```bash
-git clone https://github.com/pomagrenate/ice_age
+mkdir -p .cursor/rules
+cp .cursor/rules/iceage.mdc .cursor/rules/iceage.mdc
 ```
 
-Cursor picks up `.cursor/rules/iceage.mdc`, Windsurf picks up `.windsurf/rules/iceage.md`, Cline reads `.clinerules/iceage.md`, Copilot reads `.github/copilot-instructions.md` — automatically.
+Or copy to your global Cursor rules directory (`~/.cursor/rules/` on macOS/Linux). The rule has `alwaysApply: true` — activates on every session automatically.
 
-### Codex
+---
+
+### Windsurf
 
 ```bash
-claude plugin install pomagrenate/ice_age   # same plugin, Codex-compatible
+mkdir -p .windsurf/rules
+cp .windsurf/rules/iceage.md .windsurf/rules/iceage.md
 ```
+
+The rule has `trigger: always_on` — no manual activation needed.
+
+---
+
+### Cline
+
+```bash
+mkdir -p .clinerules
+cp .clinerules/iceage.md .clinerules/iceage.md
+```
+
+Cline auto-discovers all `.clinerules/*.md` files in the workspace root.
+
+---
+
+### Copilot
+
+```bash
+mkdir -p .github
+cp .github/copilot-instructions.md .github/copilot-instructions.md
+```
+
+Or append the contents of `rules/iceage-activate.md` to your existing `.github/copilot-instructions.md`.
+
+---
 
 ### Gemini CLI
 
 ```bash
-gemini extensions install pomagrenate/ice_age
+cp GEMINI.md /path/to/your/project/GEMINI.md
 ```
 
-### Any other agent (`npx skills`)
+Or append the contents of `rules/iceage-activate.md` to your existing `GEMINI.md`.
 
-```bash
-npx skills add pomagrenate/ice_age
+---
+
+### Any other agent
+
+Paste this into the agent's system prompt, rule file, or `CLAUDE.md`:
+
+```
+Respond terse like smart mammoth hunter. All technical substance stay. Only fluff die.
+Drop: articles, filler (just/really/basically), pleasantries, hedging.
+Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
+Pattern: [thing] [action] [reason]. [next step].
+Stop: "stop iceage" or "normal mode".
 ```
 
 Then say `/iceage` at the start of each session to activate.
@@ -84,9 +205,9 @@ Then say `/iceage` at the start of each session to activate.
 | **Auto-clarity** | Reverts to normal for security warnings, destructive ops, confusion — resumes after |
 | **Statusline badge** | `[ICEAGE]` / `[ICEAGE:ULTRA]` in Claude Code status bar |
 | **Mode persistence** | Stays active across turns, survives context compression |
-| **iceage-compress** | Compresses your existing `.md` files to iceage style via Claude API |
+| **iceage-compress** | Compresses your existing `.md` files to iceage style |
 | **iceage-commit** | Conventional Commits, ≤50 char subject, terse body |
-| **iceage-review** | One-line code review comments: `L42: error Token check inverted. Use \`exp * 1000\`.` |
+| **iceage-review** | One-line code review comments: `L42: 🔴 bug: token check inverted. Use \`exp * 1000\`.` |
 
 ---
 
@@ -108,7 +229,7 @@ Switch anytime mid-conversation:
 | `lite` | Connection pooling reuses open connections instead of creating new ones per request. Avoids repeated handshake overhead. |
 | `full` | Pool reuse open DB connections. No new connection per request. Skip handshake overhead. |
 | `ultra` | Pool = reuse DB conn. Skip handshake → fast under load. |
-| `wenyan-full` | 池reuse open connection。不每req新開。skip handshake overhead。 |
+| `wenyan-full` | 池復用連線。不每請求新開。故速。 |
 
 ---
 
@@ -124,6 +245,7 @@ Switch anytime mid-conversation:
 | `normal mode` | Return to normal |
 | `/iceage-commit` | One-shot: terse Conventional Commit message |
 | `/iceage-review` | One-shot: terse code review |
+| `/iceage-help` | Show quick reference card |
 | `/iceage:compress <file>` | Compress a markdown file in place |
 
 Natural language works too: "activate iceage", "talk like iceage", "turn off iceage".
@@ -132,7 +254,7 @@ Natural language works too: "activate iceage", "talk like iceage", "turn off ice
 
 ## iceage-compress
 
-Compresses existing markdown documentation to iceage style. Sends file to Claude API, validates headings/code blocks/URLs are preserved, retries on failure.
+Compresses existing markdown documentation to iceage style. Validates headings, code blocks, and URLs are preserved. Retries on failure.
 
 ```bash
 # With backup (default)
@@ -146,38 +268,52 @@ Requires `ANTHROPIC_API_KEY` in environment or `.env.local`. Falls back to `clau
 
 ---
 
-## Want It Always On?
-
-Paste this into any agent's rule file, `CLAUDE.md`, or system prompt:
-
-```
-Respond terse like smart mammoth hunter. All technical substance stay. Only fluff die.
-Drop: articles, filler (just/really/basically), pleasantries, hedging.
-Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
-Pattern: [thing] [action] [reason]. [next step].
-Stop: "stop iceage" or "normal mode".
-```
-
----
-
 ## How Claude Code Hooks Work
 
 Three hooks activate automatically on every session:
 
 ```
-SessionStart hook
-  → writes ~/.claude/.iceage-active
-  → injects full ruleset as hidden system context
+SessionStart hook (hooks/iceage-activate.js)
+  → writes ~/.claude/.iceage-active   (tracks current mode)
+  → injects full ruleset as hidden system context (invisible to user)
+  → nudges setup if statusline not yet configured
 
-UserPromptSubmit hook
-  → watches for /iceage commands, updates mode
-  → sends per-turn reminder to prevent style drift
+UserPromptSubmit hook (hooks/iceage-mode-tracker.js)
+  → watches for /iceage commands → updates mode flag file
+  → matches natural-language triggers ("activate iceage", "stop iceage")
+  → sends per-turn reminder to prevent style drift mid-conversation
 
-caveman-statusline.sh / .ps1
-  → reads flag file → shows [ICEAGE] badge in status bar
+iceage-statusline.sh / iceage-statusline.ps1
+  → reads flag file → outputs [ICEAGE] or [ICEAGE:ULTRA] badge in status bar
 ```
 
-Install: `bash hooks/install.sh` · Uninstall: `bash hooks/uninstall.sh`
+All hooks silent-fail on filesystem errors. Session start is never blocked.
+
+**Configure default mode** (optional):
+
+```bash
+# Environment variable (highest priority)
+export ICEAGE_DEFAULT_MODE=lite   # or: ultra, wenyan, off
+
+# Config file
+echo '{ "defaultMode": "lite" }' > ~/.config/iceage/config.json
+```
+
+Set `"off"` to disable auto-activation. You can still say `/iceage` manually each session.
+
+---
+
+## Agent Support
+
+| Agent | Mechanism | Auto-activates? |
+|-------|-----------|----------------|
+| Claude Code | Hooks (`hooks/install.sh`) + Skills (`~/.claude/skills/`) | Yes — every session |
+| Cursor | `.cursor/rules/iceage.mdc` (`alwaysApply: true`) | Yes — always-on rule |
+| Windsurf | `.windsurf/rules/iceage.md` (`trigger: always_on`) | Yes — always-on rule |
+| Cline | `.clinerules/iceage.md` (auto-discovered) | Yes — auto-discovered |
+| Copilot | `.github/copilot-instructions.md` | Yes — repo instructions |
+| Gemini CLI | `GEMINI.md` context file | Yes — context file |
+| Others | Paste `rules/iceage-activate.md` into system prompt | No — say `/iceage` each session |
 
 ---
 
@@ -193,71 +329,3 @@ cd benchmarks && go run . --trials 3
 ```
 
 Results saved to `benchmarks/results/`. Evals (token ratio vs terse-only baseline) in `evals/snapshots/`.
-
----
-
-## Agent Support
-
-| Agent | How | Auto-activates? |
-|-------|-----|----------------|
-| Claude Code | Plugin (hooks + skills) | Yes — every session |
-| Codex | Plugin + `.codex/hooks.json` | Yes — SessionStart hook |
-| Gemini CLI | Extension + `GEMINI.md` | Yes — context file |
-| Cursor | `.cursor/rules/iceage.mdc` | Yes — always-on rule |
-| Windsurf | `.windsurf/rules/iceage.md` | Yes — always-on rule |
-| Cline | `.clinerules/iceage.md` | Yes — auto-discovered |
-| Copilot | `.github/copilot-instructions.md` | Yes — repo instructions |
-| Others | `npx skills add pomagrenate/ice_age` | No — say `/iceage` each session |
-
-<details>
-<summary>Claude Code plugin details</summary>
-
-Plugin installs hooks, skills, and statusline automatically. No manual settings.json edits needed.
-
-```bash
-claude plugin install pomagrenate/ice_age
-```
-
-To uninstall:
-```bash
-claude plugin disable ice_age
-```
-
-</details>
-
-<details>
-<summary>Standalone hooks (Claude Code without plugin)</summary>
-
-```bash
-bash hooks/install.sh        # macOS / Linux
-.\hooks\install.ps1          # Windows
-```
-
-Installs hook files to `~/.claude/hooks/`, registers SessionStart + UserPromptSubmit hooks, configures statusline badge. Backs up `settings.json` before touching it.
-
-To uninstall:
-```bash
-bash hooks/uninstall.sh
-.\hooks\uninstall.ps1
-```
-
-</details>
-
-<details>
-<summary>Codex plugin details</summary>
-
-Plugin config in `plugins/iceage/`. Contains skills and `.codex-plugin/plugin.json`. Hooks wired via `.codex/hooks.json` at repo root for Codex SessionStart injection.
-
-</details>
-
-<details>
-<summary>npx skills (Cursor, Windsurf, Cline, Copilot, others)</summary>
-
-```bash
-npx skills add pomagrenate/ice_age     # install
-npx skills remove pomagrenate/ice_age  # remove
-```
-
-Copies rule files to the right location for each detected agent. Then say `/iceage` to activate each session.
-
-</details>

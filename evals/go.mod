@@ -1,4 +1,4 @@
-module github.com/JuliusBrussee/iceage/evals
+module github.com/pomagrenate/iceage/evals
 
 go 1.22
 

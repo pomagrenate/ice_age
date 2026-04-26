@@ -1,7 +1,7 @@
 # iceage — uninstaller for the SessionStart + UserPromptSubmit hooks (Windows PowerShell)
 # Removes: hook files in ~/.claude/hooks, settings.json entries, and the flag file
 # Usage: powershell -ExecutionPolicy Bypass -File hooks\uninstall.ps1
-#   or:  irm https://raw.githubusercontent.com/JuliusBrussee/iceage/main/hooks/uninstall.ps1 | iex
+#   or:  irm https://raw.githubusercontent.com/pomagrenate/iceage/main/hooks/uninstall.ps1 | iex
 param()
 
 $ErrorActionPreference = "Stop"
