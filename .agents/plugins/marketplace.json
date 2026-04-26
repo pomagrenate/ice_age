@@ -1,14 +1,14 @@
 {
-  "name": "caveman-repo",
+  "name": "iceage-repo",
   "interface": {
-    "displayName": "Caveman Repo"
+    "displayName": "Iceage Repo"
   },
   "plugins": [
     {
-      "name": "caveman",
+      "name": "iceage",
       "source": {
         "source": "local",
-        "path": "./plugins/caveman"
+        "path": "./plugins/iceage"
       },
       "policy": {
         "installation": "AVAILABLE",

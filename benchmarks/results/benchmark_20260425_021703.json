@@ -1,0 +1,550 @@
+{
+  "metadata": {
+    "script_version": "1.0.0",
+    "model": "claude-sonnet-4-20250514",
+    "date": "2026-04-25T02:17:03Z",
+    "trials": 3,
+    "skill_md_sha256": "fc0c5d7944a857ce4ef28aea6a1cb7619f6a8b7b140d9589a120835ee073da3c"
+  },
+  "summary": {
+    "avg_savings": 0,
+    "min_savings": 0,
+    "max_savings": 0,
+    "avg_normal": 0,
+    "avg_iceage": 0
+  },
+  "rows": [
+    {
+      "id": "react-rerender",
+      "category": "debugging",
+      "prompt": "Why is my React component re-rendering on every state update even though the props haven't changed? I'm passing an object as a prop.",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "auth-middleware-fix",
+      "category": "bugfix",
+      "prompt": "My Express auth middleware is letting expired JWT tokens through. The expiry check uses Date.now() compared to the token's exp field. What's wrong and how do I fix it?",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "postgres-pool",
+      "category": "setup",
+      "prompt": "How do I set up a PostgreSQL connection pool in Node.js with proper timeout and error handling configuration?",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "git-rebase-merge",
+      "category": "explanation",
+      "prompt": "Explain the difference between git rebase and git merge. When should I use each one and what are the tradeoffs?",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "async-refactor",
+      "category": "refactor",
+      "prompt": "Refactor this callback-based Node.js function to use async/await:\n\nfunction getUser(id, callback) {\n  db.query('SELECT * FROM users WHERE id = ?', [id], function(err, rows) {\n    if (err) return callback(err);\n    if (!rows.length) return callback(new Error('Not found'));\n    callback(null, rows[0]);\n  });\n}",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "microservices-monolith",
+      "category": "architecture",
+      "prompt": "We have a monolithic Django app that's getting slow. The team is debating microservices. What are the key factors to consider before splitting up the monolith?",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "pr-security-review",
+      "category": "code-review",
+      "prompt": "Review this Express route handler for security issues:\n\napp.get('/api/users/:id', (req, res) =\u003e {\n  const query = `SELECT * FROM users WHERE id = ${req.params.id}`;\n  db.query(query).then(user =\u003e res.json(user));\n});",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "docker-multi-stage",
+      "category": "devops",
+      "prompt": "Write a multi-stage Dockerfile for a Node.js TypeScript application that minimizes the final image size. The app uses npm and needs to compile TypeScript before running.",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "race-condition-debug",
+      "category": "debugging",
+      "prompt": "My Node.js API endpoint that increments a counter in PostgreSQL sometimes returns the same value for concurrent requests. How do I fix this race condition?",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    },
+    {
+      "id": "error-boundary",
+      "category": "implementation",
+      "prompt": "Implement a React error boundary component that catches render errors, shows a fallback UI with a retry button, and logs the error details.",
+      "normal_median": 0,
+      "iceage_median": 0,
+      "savings_pct": 0
+    }
+  ],
+  "raw": [
+    {
+      "id": "react-rerender",
+      "category": "debugging",
+      "prompt": "Why is my React component re-rendering on every state update even though the props haven't changed? I'm passing an object as a prop.",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "auth-middleware-fix",
+      "category": "bugfix",
+      "prompt": "My Express auth middleware is letting expired JWT tokens through. The expiry check uses Date.now() compared to the token's exp field. What's wrong and how do I fix it?",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "postgres-pool",
+      "category": "setup",
+      "prompt": "How do I set up a PostgreSQL connection pool in Node.js with proper timeout and error handling configuration?",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "git-rebase-merge",
+      "category": "explanation",
+      "prompt": "Explain the difference between git rebase and git merge. When should I use each one and what are the tradeoffs?",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "async-refactor",
+      "category": "refactor",
+      "prompt": "Refactor this callback-based Node.js function to use async/await:\n\nfunction getUser(id, callback) {\n  db.query('SELECT * FROM users WHERE id = ?', [id], function(err, rows) {\n    if (err) return callback(err);\n    if (!rows.length) return callback(new Error('Not found'));\n    callback(null, rows[0]);\n  });\n}",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "microservices-monolith",
+      "category": "architecture",
+      "prompt": "We have a monolithic Django app that's getting slow. The team is debating microservices. What are the key factors to consider before splitting up the monolith?",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "pr-security-review",
+      "category": "code-review",
+      "prompt": "Review this Express route handler for security issues:\n\napp.get('/api/users/:id', (req, res) =\u003e {\n  const query = `SELECT * FROM users WHERE id = ${req.params.id}`;\n  db.query(query).then(user =\u003e res.json(user));\n});",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "docker-multi-stage",
+      "category": "devops",
+      "prompt": "Write a multi-stage Dockerfile for a Node.js TypeScript application that minimizes the final image size. The app uses npm and needs to compile TypeScript before running.",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "race-condition-debug",
+      "category": "debugging",
+      "prompt": "My Node.js API endpoint that increments a counter in PostgreSQL sometimes returns the same value for concurrent requests. How do I fix this race condition?",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    },
+    {
+      "id": "error-boundary",
+      "category": "implementation",
+      "prompt": "Implement a React error boundary component that catches render errors, shows a fallback UI with a retry button, and logs the error details.",
+      "normal": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ],
+      "iceage": [
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        },
+        {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "text": "",
+          "stop_reason": ""
+        }
+      ]
+    }
+  ]
+}
