@@ -1,4 +1,4 @@
-@./skills/caveman/SKILL.md
-@./skills/caveman-commit/SKILL.md
-@./skills/caveman-review/SKILL.md
-@./caveman-compress/SKILL.md
+@./skills/iceage/SKILL.md
+@./skills/iceage-commit/SKILL.md
+@./skills/iceage-review/SKILL.md
+@./iceage-compress/SKILL.md

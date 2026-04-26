@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - skills/caveman/SKILL.md
-      - rules/caveman-activate.md
-      - caveman-compress/SKILL.md
-      - caveman-compress/scripts/**
+      - skills/iceage/SKILL.md
+      - rules/iceage-activate.md
+      - iceage-compress/SKILL.md
+      - iceage-compress/scripts/**
 
 concurrency:
   group: sync-skill
@@ -31,71 +31,71 @@ jobs:
 
       - name: Sync SKILL.md copies
         run: |
-          cp skills/caveman/SKILL.md caveman/SKILL.md
-          cp skills/caveman/SKILL.md plugins/caveman/skills/caveman/SKILL.md
-          cp skills/caveman/SKILL.md .cursor/skills/caveman/SKILL.md
-          mkdir -p .windsurf/skills/caveman
-          cp skills/caveman/SKILL.md .windsurf/skills/caveman/SKILL.md
+          cp skills/iceage/SKILL.md iceage/SKILL.md
+          cp skills/iceage/SKILL.md plugins/iceage/skills/iceage/SKILL.md
+          cp skills/iceage/SKILL.md .cursor/skills/iceage/SKILL.md
+          mkdir -p .windsurf/skills/iceage
+          cp skills/iceage/SKILL.md .windsurf/skills/iceage/SKILL.md
 
       - name: Sync compress skill
         run: |
           # Sync to skills/compress (main location for Gemini CLI)
           rm -rf skills/compress/scripts
-          cp caveman-compress/SKILL.md skills/compress/SKILL.md
-          sed -i 's/^name: caveman-compress$/name: compress/' skills/compress/SKILL.md
-          sed -i "s|The compression scripts live in \`caveman-compress/scripts/\` (adjacent to this SKILL.md). If the path is not immediately available, search for \`caveman-compress/scripts/__main__.py\`.|This SKILL.md lives alongside \`scripts/\` in the same directory. Find that directory.|" skills/compress/SKILL.md
-          sed -i 's|cd caveman-compress && python3|cd <directory_containing_this_SKILL.md> \&\& python3|' skills/compress/SKILL.md
-          cp -r caveman-compress/scripts skills/compress/scripts
+          cp iceage-compress/SKILL.md skills/compress/SKILL.md
+          sed -i 's/^name: iceage-compress$/name: compress/' skills/compress/SKILL.md
+          sed -i "s|The compression scripts live in \`iceage-compress/scripts/\` (adjacent to this SKILL.md). If the path is not immediately available, search for \`iceage-compress/scripts/__main__.py\`.|This SKILL.md lives alongside \`scripts/\` in the same directory. Find that directory.|" skills/compress/SKILL.md
+          sed -i 's|cd iceage-compress && python3|cd <directory_containing_this_SKILL.md> \&\& python3|' skills/compress/SKILL.md
+          cp -r iceage-compress/scripts skills/compress/scripts
           rm -rf skills/compress/scripts/__pycache__
 
       - name: Sync compress skill to plugin
         run: |
           # Copy SKILL.md and patch name + process instructions for plugin context
-          cp caveman-compress/SKILL.md plugins/caveman/skills/compress/SKILL.md
-          sed -i 's/^name: caveman-compress$/name: compress/' plugins/caveman/skills/compress/SKILL.md
-          sed -i "s|The compression scripts live in \`caveman-compress/scripts/\` (adjacent to this SKILL.md). If the path is not immediately available, search for \`caveman-compress/scripts/__main__.py\`.|This SKILL.md lives alongside \`scripts/\` in the same directory. Find that directory.|" plugins/caveman/skills/compress/SKILL.md
-          sed -i 's|cd caveman-compress && python3|cd <directory_containing_this_SKILL.md> \&\& python3|' plugins/caveman/skills/compress/SKILL.md
+          cp iceage-compress/SKILL.md plugins/iceage/skills/compress/SKILL.md
+          sed -i 's/^name: iceage-compress$/name: compress/' plugins/iceage/skills/compress/SKILL.md
+          sed -i "s|The compression scripts live in \`iceage-compress/scripts/\` (adjacent to this SKILL.md). If the path is not immediately available, search for \`iceage-compress/scripts/__main__.py\`.|This SKILL.md lives alongside \`scripts/\` in the same directory. Find that directory.|" plugins/iceage/skills/compress/SKILL.md
+          sed -i 's|cd iceage-compress && python3|cd <directory_containing_this_SKILL.md> \&\& python3|' plugins/iceage/skills/compress/SKILL.md
           # Copy scripts verbatim
-          rm -rf plugins/caveman/skills/compress/scripts
-          cp -r caveman-compress/scripts plugins/caveman/skills/compress/scripts
-          rm -rf plugins/caveman/skills/compress/scripts/__pycache__
+          rm -rf plugins/iceage/skills/compress/scripts
+          cp -r iceage-compress/scripts plugins/iceage/skills/compress/scripts
+          rm -rf plugins/iceage/skills/compress/scripts/__pycache__
 
-      - name: Rebuild caveman.skill ZIP
-        run: cd skills && zip -r ../caveman.skill caveman/
+      - name: Rebuild iceage.skill ZIP
+        run: cd skills && zip -r ../iceage.skill iceage/
 
       - name: Sync auto-activation rules
         run: |
-          BODY="rules/caveman-activate.md"
+          BODY="rules/iceage-activate.md"
 
           # Cline + Copilot — no frontmatter, direct copy
           mkdir -p .clinerules .github
-          cp "$BODY" .clinerules/caveman.md
+          cp "$BODY" .clinerules/iceage.md
           cp "$BODY" .github/copilot-instructions.md
 
           # Cursor — needs alwaysApply frontmatter
           mkdir -p .cursor/rules
-          printf '%s\n' '---' 'description: "Caveman mode — terse communication, ~75% fewer tokens, full technical accuracy"' 'alwaysApply: true' '---' '' > .cursor/rules/caveman.mdc
-          cat "$BODY" >> .cursor/rules/caveman.mdc
+          printf '%s\n' '---' 'description: "Iceage mode — terse communication, ~75% fewer tokens, full technical accuracy"' 'alwaysApply: true' '---' '' > .cursor/rules/iceage.mdc
+          cat "$BODY" >> .cursor/rules/iceage.mdc
 
           # Windsurf — needs always_on frontmatter
           mkdir -p .windsurf/rules
-          printf '%s\n' '---' 'trigger: always_on' '---' '' > .windsurf/rules/caveman.md
-          cat "$BODY" >> .windsurf/rules/caveman.md
+          printf '%s\n' '---' 'trigger: always_on' '---' '' > .windsurf/rules/iceage.md
+          cat "$BODY" >> .windsurf/rules/iceage.md
 
       - name: Commit and push if changed
         run: |
           git add \
-            caveman/SKILL.md \
+            iceage/SKILL.md \
             skills/compress/ \
-            plugins/caveman/skills/compress/ \
-            plugins/caveman/skills/caveman/SKILL.md \
-            .cursor/skills/caveman/SKILL.md \
-            .windsurf/skills/caveman/SKILL.md \
-            caveman.skill \
-            .clinerules/caveman.md \
+            plugins/iceage/skills/compress/ \
+            plugins/iceage/skills/iceage/SKILL.md \
+            .cursor/skills/iceage/SKILL.md \
+            .windsurf/skills/iceage/SKILL.md \
+            iceage.skill \
+            .clinerules/iceage.md \
             .github/copilot-instructions.md \
-            .cursor/rules/caveman.mdc \
-            .windsurf/rules/caveman.md
+            .cursor/rules/iceage.mdc \
+            .windsurf/rules/iceage.md
           git diff --staged --quiet && exit 0
           git commit -m "chore: sync SKILL.md copies and auto-activation rules [skip ci]"
           git push
