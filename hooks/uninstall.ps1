@@ -106,7 +106,13 @@ fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n');
 console.log('  Removed ' + removed + ' iceage hook entries from settings.json');
 '@
 
-        node -e $nodeScript
+        $tempScript = [System.IO.Path]::GetTempFileName() + ".js"
+        try {
+            Set-Content -Path $tempScript -Value $nodeScript -Encoding utf8
+            node $tempScript
+        } finally {
+            Remove-Item $tempScript -Force -ErrorAction SilentlyContinue
+        }
 
         # Clean up backup file left by installer
         if (Test-Path "$Settings.bak") {
