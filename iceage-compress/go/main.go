@@ -1,18 +1,26 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Usage: iceage-compress <filepath>")
+	noBackup := flag.Bool("no-backup", false, "skip creating .original.md backup")
+	flag.Usage = func() {
+		fmt.Fprintln(os.Stderr, "Usage: iceage-compress [--no-backup] <filepath>")
+		flag.PrintDefaults()
+	}
+	flag.Parse()
+
+	if flag.NArg() != 1 {
+		flag.Usage()
 		os.Exit(1)
 	}
 
-	path := os.Args[1]
+	path := flag.Arg(0)
 
 	info, err := os.Stat(path)
 	if err != nil {
@@ -35,7 +43,7 @@ func main() {
 
 	fmt.Println("Starting iceage compression...\n")
 
-	success, err := compressFile(absPath)
+	success, err := compressFile(absPath, *noBackup)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
@@ -43,10 +51,11 @@ func main() {
 
 	if success {
 		fmt.Println("\nCompression completed successfully")
-		stem := absPath[:len(absPath)-len(filepath.Ext(absPath))]
-		backupPath := stem + ".original.md"
 		fmt.Printf("Compressed: %s\n", absPath)
-		fmt.Printf("Original:   %s\n", backupPath)
+		if !*noBackup {
+			stem := absPath[:len(absPath)-len(filepath.Ext(absPath))]
+			fmt.Printf("Original:   %s\n", stem+".original.md")
+		}
 		os.Exit(0)
 	}
 

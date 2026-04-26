@@ -153,7 +153,7 @@ COMPRESSED (fix this):
 Return ONLY the fixed compressed file. No explanation.`
 }
 
-func compressFile(path string) (bool, error) {
+func compressFile(path string, noBackup bool) (bool, error) {
 	absPath, err := filepath.Abs(path)
 	if err != nil {
 		return false, err
@@ -187,13 +187,16 @@ func compressFile(path string) (bool, error) {
 	}
 	originalText := string(origData)
 
-	stem := strings.TrimSuffix(filepath.Base(absPath), filepath.Ext(absPath))
-	backupPath := filepath.Join(filepath.Dir(absPath), stem+".original.md")
+	var backupPath string
+	if !noBackup {
+		stem := strings.TrimSuffix(filepath.Base(absPath), filepath.Ext(absPath))
+		backupPath = filepath.Join(filepath.Dir(absPath), stem+".original.md")
 
-	if _, err := os.Stat(backupPath); err == nil {
-		fmt.Printf("Backup file already exists: %s\n", backupPath)
-		fmt.Println("Aborting to prevent data loss. Remove or rename the backup file to proceed.")
-		return false, nil
+		if _, err := os.Stat(backupPath); err == nil {
+			fmt.Printf("Backup file already exists: %s\n", backupPath)
+			fmt.Println("Aborting to prevent data loss. Remove or rename the backup file to proceed.")
+			return false, nil
+		}
 	}
 
 	fmt.Println("Compressing with Claude...")
@@ -202,8 +205,10 @@ func compressFile(path string) (bool, error) {
 		return false, err
 	}
 
-	if err := os.WriteFile(backupPath, origData, 0600); err != nil {
-		return false, err
+	if !noBackup {
+		if err := os.WriteFile(backupPath, origData, 0600); err != nil {
+			return false, err
+		}
 	}
 	if err := os.WriteFile(absPath, []byte(compressed), 0600); err != nil {
 		return false, err
@@ -212,7 +217,7 @@ func compressFile(path string) (bool, error) {
 	for attempt := 0; attempt < maxRetries; attempt++ {
 		fmt.Printf("\nValidation attempt %d\n", attempt+1)
 
-		result := validate(backupPath, absPath)
+		result := validateTexts(originalText, compressed)
 		if result.IsValid {
 			fmt.Println("Validation passed")
 			return true, nil
@@ -225,7 +230,9 @@ func compressFile(path string) (bool, error) {
 
 		if attempt == maxRetries-1 {
 			_ = os.WriteFile(absPath, origData, 0600)
-			_ = os.Remove(backupPath)
+			if !noBackup {
+				_ = os.Remove(backupPath)
+			}
 			fmt.Println("Failed after retries — original restored")
 			return false, nil
 		}

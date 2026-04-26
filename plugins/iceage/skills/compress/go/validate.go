@@ -170,6 +170,16 @@ func validateBullets(orig, comp string, result *ValidationResult) {
 	}
 }
 
+func validateTexts(orig, comp string) *ValidationResult {
+	result := &ValidationResult{IsValid: true}
+	validateHeadings(orig, comp, result)
+	validateCodeBlocks(orig, comp, result)
+	validateURLs(orig, comp, result)
+	validatePaths(orig, comp, result)
+	validateBullets(orig, comp, result)
+	return result
+}
+
 func validate(originalPath, compressedPath string) *ValidationResult {
 	result := &ValidationResult{IsValid: true}
 
@@ -184,14 +194,5 @@ func validate(originalPath, compressedPath string) *ValidationResult {
 		return result
 	}
 
-	orig := string(origData)
-	comp := string(compData)
-
-	validateHeadings(orig, comp, result)
-	validateCodeBlocks(orig, comp, result)
-	validateURLs(orig, comp, result)
-	validatePaths(orig, comp, result)
-	validateBullets(orig, comp, result)
-
-	return result
+	return validateTexts(string(origData), string(compData))
 }
