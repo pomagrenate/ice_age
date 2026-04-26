@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// caveman — shared configuration resolver
+// iceage — shared configuration resolver
 //
 // Resolution order for default mode:
-//   1. CAVEMAN_DEFAULT_MODE environment variable
+//   1. ICEAGE_DEFAULT_MODE environment variable
 //   2. Config file defaultMode field:
-//      - $XDG_CONFIG_HOME/caveman/config.json (any platform, if set)
-//      - ~/.config/caveman/config.json (macOS / Linux fallback)
-//      - %APPDATA%\caveman\config.json (Windows fallback)
+//      - $XDG_CONFIG_HOME/iceage/config.json (any platform, if set)
+//      - ~/.config/iceage/config.json (macOS / Linux fallback)
+//      - %APPDATA%\iceage\config.json (Windows fallback)
 //   3. 'full'
 
 const fs = require('fs');
@@ -21,15 +21,15 @@ const VALID_MODES = [
 
 function getConfigDir() {
   if (process.env.XDG_CONFIG_HOME) {
-    return path.join(process.env.XDG_CONFIG_HOME, 'caveman');
+    return path.join(process.env.XDG_CONFIG_HOME, 'iceage');
   }
   if (process.platform === 'win32') {
     return path.join(
       process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming'),
-      'caveman'
+      'iceage'
     );
   }
-  return path.join(os.homedir(), '.config', 'caveman');
+  return path.join(os.homedir(), '.config', 'iceage');
 }
 
 function getConfigPath() {
@@ -38,7 +38,7 @@ function getConfigPath() {
 
 function getDefaultMode() {
   // 1. Environment variable (highest priority)
-  const envMode = process.env.CAVEMAN_DEFAULT_MODE;
+  const envMode = process.env.ICEAGE_DEFAULT_MODE;
   if (envMode && VALID_MODES.includes(envMode.toLowerCase())) {
     return envMode.toLowerCase();
   }
@@ -62,7 +62,7 @@ function getDefaultMode() {
 // Refuses symlinks at the target file and at the immediate parent directory,
 // uses O_NOFOLLOW where available, writes atomically via temp + rename with
 // 0600 permissions. Protects against local attackers replacing the predictable
-// flag path (~/.claude/.caveman-active) with a symlink to clobber other files.
+// flag path (~/.claude/.iceage-active) with a symlink to clobber other files.
 //
 // Does NOT walk the full ancestor chain — macOS has /tmp -> /private/tmp and
 // many legitimate setups route through symlinked home dirs, so a full walk
@@ -89,7 +89,7 @@ function safeWriteFlag(flagPath, content) {
       if (e.code !== 'ENOENT') return;
     }
 
-    const tempPath = path.join(flagDir, `.caveman-active.${process.pid}.${Date.now()}`);
+    const tempPath = path.join(flagDir, `.iceage-active.${process.pid}.${Date.now()}`);
     const O_NOFOLLOW = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
     const flags = fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | O_NOFOLLOW;
     let fd;

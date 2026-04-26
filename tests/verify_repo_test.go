@@ -126,7 +126,7 @@ func TestManifestsAndSyntax(t *testing.T) {
 		}
 	}
 
-	jsFiles := []string{"hooks/caveman-config.js", "hooks/caveman-activate.js", "hooks/caveman-mode-tracker.js"}
+	jsFiles := []string{"hooks/iceage-config.js", "hooks/iceage-activate.js", "hooks/iceage-mode-tracker.js"}
 	for _, f := range jsFiles {
 		stdout, stderr, code := runVerify(t, nil, "node", "--check", f)
 		if code != 0 {
@@ -134,7 +134,7 @@ func TestManifestsAndSyntax(t *testing.T) {
 		}
 	}
 
-	bashFiles := []string{"hooks/install.sh", "hooks/uninstall.sh", "hooks/caveman-statusline.sh"}
+	bashFiles := []string{"hooks/install.sh", "hooks/uninstall.sh", "hooks/iceage-statusline.sh"}
 	for _, f := range bashFiles {
 		stdout, stderr, code := runVerify(t, nil, "bash", "-n", f)
 		if code != 0 {
@@ -144,11 +144,11 @@ func TestManifestsAndSyntax(t *testing.T) {
 
 	installSh := readFile(t, filepath.Join(r, "hooks/install.sh"))
 	uninstallSh := readFile(t, filepath.Join(r, "hooks/uninstall.sh"))
-	if !strings.Contains(installSh, "caveman-config.js") {
-		t.Error("install.sh missing caveman-config.js")
+	if !strings.Contains(installSh, "iceage-config.js") {
+		t.Error("install.sh missing iceage-config.js")
 	}
-	if !strings.Contains(uninstallSh, "caveman-config.js") {
-		t.Error("uninstall.sh missing caveman-config.js")
+	if !strings.Contains(uninstallSh, "iceage-config.js") {
+		t.Error("uninstall.sh missing iceage-config.js")
 	}
 }
 
@@ -157,14 +157,14 @@ func TestPowerShellStatic(t *testing.T) {
 	r := root()
 	installText := readFile(t, filepath.Join(r, "hooks/install.ps1"))
 	uninstallText := readFile(t, filepath.Join(r, "hooks/uninstall.ps1"))
-	statuslineText := readFile(t, filepath.Join(r, "hooks/caveman-statusline.ps1"))
+	statuslineText := readFile(t, filepath.Join(r, "hooks/iceage-statusline.ps1"))
 
 	checks := []struct{ text, substr, msg string }{
-		{installText, "caveman-config.js", "install.ps1 missing caveman-config.js"},
-		{uninstallText, "caveman-config.js", "uninstall.ps1 missing caveman-config.js"},
-		{installText, "caveman-statusline.ps1", "install.ps1 missing statusline.ps1"},
-		{uninstallText, "caveman-statusline.ps1", "uninstall.ps1 missing statusline.ps1"},
-		{statuslineText, "[CAVEMAN", "caveman-statusline.ps1 missing badge output"},
+		{installText, "iceage-config.js", "install.ps1 missing iceage-config.js"},
+		{uninstallText, "iceage-config.js", "uninstall.ps1 missing iceage-config.js"},
+		{installText, "iceage-statusline.ps1", "install.ps1 missing statusline.ps1"},
+		{uninstallText, "iceage-statusline.ps1", "uninstall.ps1 missing statusline.ps1"},
+		{statuslineText, "[ICEAGE", "iceage-statusline.ps1 missing badge output"},
 		{installText, "powershell -ExecutionPolicy Bypass -File",
 			"install.ps1 missing PowerShell statusline command"},
 	}
@@ -182,10 +182,10 @@ func TestPowerShellStatic(t *testing.T) {
 // satisfy the basic structural invariants (headings, code blocks, URLs).
 func TestCompressFixtures(t *testing.T) {
 	r := root()
-	fixtureDir := filepath.Join(r, "tests/caveman-compress")
+	fixtureDir := filepath.Join(r, "tests/iceage-compress")
 	entries, err := filepath.Glob(filepath.Join(fixtureDir, "*.original.md"))
 	if err != nil || len(entries) == 0 {
-		t.Skip("no caveman-compress fixtures found")
+		t.Skip("no iceage-compress fixtures found")
 	}
 
 	for _, original := range entries {
@@ -280,9 +280,9 @@ func TestHookInstallFlow(t *testing.T) {
 	}
 
 	// Activate — default mode
-	stdout, _, _ := runVerify(t, map[string]string{"HOME": home}, "node", "hooks/caveman-activate.js")
-	if !strings.Contains(stdout, "CAVEMAN MODE ACTIVE.") {
-		t.Error("activation output missing caveman banner")
+	stdout, _, _ := runVerify(t, map[string]string{"HOME": home}, "node", "hooks/iceage-activate.js")
+	if !strings.Contains(stdout, "ICEAGE MODE ACTIVE") {
+		t.Error("activation output missing iceage banner")
 	}
 	if strings.Contains(stdout, "STATUSLINE SETUP NEEDED") {
 		t.Error("activation should stay quiet when custom statusline exists")
@@ -290,29 +290,29 @@ func TestHookInstallFlow(t *testing.T) {
 	assertFlagFile(t, claudeDir, "full")
 
 	// Activate — custom default mode via env var
-	runVerify(t, map[string]string{"HOME": home, "CAVEMAN_DEFAULT_MODE": "ultra"}, "node", "hooks/caveman-activate.js")
+	runVerify(t, map[string]string{"HOME": home, "ICEAGE_DEFAULT_MODE": "ultra"}, "node", "hooks/iceage-activate.js")
 	assertFlagFile(t, claudeDir, "ultra")
 
 	// Activate — "off" mode removes flag
-	runVerify(t, map[string]string{"HOME": home, "CAVEMAN_DEFAULT_MODE": "off"}, "node", "hooks/caveman-activate.js")
-	if _, err := os.Stat(filepath.Join(claudeDir, ".caveman-active")); !os.IsNotExist(err) {
+	runVerify(t, map[string]string{"HOME": home, "ICEAGE_DEFAULT_MODE": "off"}, "node", "hooks/iceage-activate.js")
+	if _, err := os.Stat(filepath.Join(claudeDir, ".iceage-active")); !os.IsNotExist(err) {
 		t.Error("off mode should remove flag file")
 	}
 
-	// Mode tracker — /caveman with off default should not write flag
-	runModeTracker(t, r, home, map[string]string{"CAVEMAN_DEFAULT_MODE": "off"}, `{"prompt":"/caveman"}`)
-	if _, err := os.Stat(filepath.Join(claudeDir, ".caveman-active")); !os.IsNotExist(err) {
-		t.Error("/caveman with off default should not write flag")
+	// Mode tracker — /iceage with off default should not write flag
+	runModeTracker(t, r, home, map[string]string{"ICEAGE_DEFAULT_MODE": "off"}, `{"prompt":"/iceage"}`)
+	if _, err := os.Stat(filepath.Join(claudeDir, ".iceage-active")); !os.IsNotExist(err) {
+		t.Error("/iceage with off default should not write flag")
 	}
 
 	// Reset flag to full for remaining tests
-	_ = os.WriteFile(filepath.Join(claudeDir, ".caveman-active"), []byte("full"), 0600)
+	_ = os.WriteFile(filepath.Join(claudeDir, ".iceage-active"), []byte("full"), 0600)
 
 	// Mode tracker — empty prompt (no-op)
 	runModeTracker(t, r, home, nil, "")
 
-	// Mode tracker — /caveman ultra
-	trackerOut := runModeTracker(t, r, home, nil, `{"prompt":"/caveman ultra"}`)
+	// Mode tracker — /iceage ultra
+	trackerOut := runModeTracker(t, r, home, nil, `{"prompt":"/iceage ultra"}`)
 	if trackerOut != "" {
 		t.Error("mode tracker should stay silent on output")
 	}
@@ -320,14 +320,14 @@ func TestHookInstallFlow(t *testing.T) {
 
 	// Mode tracker — "normal mode" deactivates
 	runModeTracker(t, r, home, nil, `{"prompt":"normal mode"}`)
-	if _, err := os.Stat(filepath.Join(claudeDir, ".caveman-active")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(claudeDir, ".iceage-active")); !os.IsNotExist(err) {
 		t.Error("'normal mode' should remove flag file")
 	}
 
 	// Statusline badge
-	_ = os.WriteFile(filepath.Join(claudeDir, ".caveman-active"), []byte("wenyan-ultra"), 0600)
-	stdout, _, _ = runVerify(t, map[string]string{"HOME": home}, "bash", "hooks/caveman-statusline.sh")
-	if !strings.Contains(stdout, "[CAVEMAN:WENYAN-ULTRA]") {
+	_ = os.WriteFile(filepath.Join(claudeDir, ".iceage-active"), []byte("wenyan-ultra"), 0600)
+	stdout, _, _ = runVerify(t, map[string]string{"HOME": home}, "bash", "hooks/iceage-statusline.sh")
+	if !strings.Contains(stdout, "[ICEAGE:WENYAN-ULTRA]") {
 		t.Errorf("statusline badge mismatch, got: %q", stdout)
 	}
 
@@ -341,9 +341,9 @@ func TestHookInstallFlow(t *testing.T) {
 	runVerify(t, map[string]string{"HOME": home}, "bash", "hooks/uninstall.sh")
 	settingsAfter := readJSON(t, filepath.Join(claudeDir, "settings.json"))
 	if fmt.Sprintf("%v", settingsAfter) != fmt.Sprintf("%v", existingSettings) {
-		t.Errorf("uninstall.sh did not restore non-caveman settings\ngot:  %v\nwant: %v", settingsAfter, existingSettings)
+		t.Errorf("uninstall.sh did not restore non-iceage settings\ngot:  %v\nwant: %v", settingsAfter, existingSettings)
 	}
-	if _, err := os.Stat(filepath.Join(claudeDir, ".caveman-active")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(claudeDir, ".iceage-active")); !os.IsNotExist(err) {
 		t.Error("uninstall.sh should remove flag file")
 	}
 
@@ -357,7 +357,7 @@ func TestHookInstallFlow(t *testing.T) {
 	if _, ok := s2["statusLine"]; !ok {
 		t.Error("fresh install should configure statusLine")
 	}
-	stdout, _, _ = runVerify(t, map[string]string{"HOME": home2}, "node", "hooks/caveman-activate.js")
+	stdout, _, _ = runVerify(t, map[string]string{"HOME": home2}, "node", "hooks/iceage-activate.js")
 	if strings.Contains(stdout, "STATUSLINE SETUP NEEDED") {
 		t.Error("fresh install should not nudge for statusline")
 	}
@@ -372,7 +372,7 @@ func TestHookInstallFlow(t *testing.T) {
 
 func assertFlagFile(t *testing.T, claudeDir, want string) {
 	t.Helper()
-	data, err := os.ReadFile(filepath.Join(claudeDir, ".caveman-active"))
+	data, err := os.ReadFile(filepath.Join(claudeDir, ".iceage-active"))
 	if err != nil {
 		t.Fatalf("flag file not found: %v", err)
 	}
@@ -383,7 +383,7 @@ func assertFlagFile(t *testing.T, claudeDir, want string) {
 
 func runModeTracker(t *testing.T, repoRoot, home string, extra map[string]string, stdin string) string {
 	t.Helper()
-	cmd := exec.Command("node", "hooks/caveman-mode-tracker.js")
+	cmd := exec.Command("node", "hooks/iceage-mode-tracker.js")
 	cmd.Dir = repoRoot
 	env := os.Environ()
 	env = append(env, "HOME="+home, "USERPROFILE="+home)

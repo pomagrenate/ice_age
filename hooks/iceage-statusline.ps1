@@ -1,5 +1,5 @@
 $ClaudeDir = if ($env:CLAUDE_CONFIG_DIR) { $env:CLAUDE_CONFIG_DIR } else { Join-Path $HOME ".claude" }
-$Flag = Join-Path $ClaudeDir ".caveman-active"
+$Flag = Join-Path $ClaudeDir ".iceage-active"
 if (-not (Test-Path $Flag)) { exit 0 }
 
 # Refuse reparse points (symlinks / junctions) and oversized files. Without
@@ -32,8 +32,8 @@ if (-not ($Valid -contains $Mode)) { exit 0 }
 
 $Esc = [char]27
 if ([string]::IsNullOrEmpty($Mode) -or $Mode -eq "full") {
-    [Console]::Write("${Esc}[38;5;172m[CAVEMAN]${Esc}[0m")
+    [Console]::Write("${Esc}[38;5;172m[ICEAGE]${Esc}[0m")
 } else {
     $Suffix = $Mode.ToUpperInvariant()
-    [Console]::Write("${Esc}[38;5;172m[CAVEMAN:$Suffix]${Esc}[0m")
+    [Console]::Write("${Esc}[38;5;172m[ICEAGE:$Suffix]${Esc}[0m")
 }

@@ -64,7 +64,7 @@ func writeJSON(t *testing.T, path string, v any) {
 }
 
 // TestInstallUpgradesOldTwoFileInstall verifies that running install.sh over an
-// old two-file install (no statusline) adds caveman-statusline.sh and wires it.
+// old two-file install (no statusline) adds iceage-statusline.sh and wires it.
 func TestInstallUpgradesOldTwoFileInstall(t *testing.T) {
 	home := t.TempDir()
 	hooksDir := filepath.Join(home, ".claude", "hooks")
@@ -72,14 +72,14 @@ func TestInstallUpgradesOldTwoFileInstall(t *testing.T) {
 		t.Fatal(err)
 	}
 	writeJSON(t, filepath.Join(home, ".claude", "settings.json"), map[string]any{})
-	_ = os.WriteFile(filepath.Join(hooksDir, "caveman-activate.js"), nil, 0644)
-	_ = os.WriteFile(filepath.Join(hooksDir, "caveman-mode-tracker.js"), nil, 0644)
+	_ = os.WriteFile(filepath.Join(hooksDir, "iceage-activate.js"), nil, 0644)
+	_ = os.WriteFile(filepath.Join(hooksDir, "iceage-mode-tracker.js"), nil, 0644)
 
 	mustRun(t, home, "bash", "hooks/install.sh")
 
-	statusline := filepath.Join(hooksDir, "caveman-statusline.sh")
+	statusline := filepath.Join(hooksDir, "iceage-statusline.sh")
 	if _, err := os.Stat(statusline); err != nil {
-		t.Error("upgrade should install caveman-statusline.sh")
+		t.Error("upgrade should install iceage-statusline.sh")
 	}
 
 	settings := readJSON(t, filepath.Join(home, ".claude", "settings.json"))
@@ -102,7 +102,7 @@ func TestInstallReconfiguresMissingStatusline(t *testing.T) {
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		t.Fatal(err)
 	}
-	for _, name := range []string{"caveman-activate.js", "caveman-mode-tracker.js", "caveman-statusline.sh"} {
+	for _, name := range []string{"iceage-activate.js", "iceage-mode-tracker.js", "iceage-statusline.sh"} {
 		_ = os.WriteFile(filepath.Join(hooksDir, name), nil, 0644)
 	}
 	settings := map[string]any{
@@ -110,13 +110,13 @@ func TestInstallReconfiguresMissingStatusline(t *testing.T) {
 			"SessionStart": []any{
 				map[string]any{"hooks": []any{map[string]any{
 					"type":    "command",
-					"command": `node "` + filepath.Join(hooksDir, "caveman-activate.js") + `"`,
+					"command": `node "` + filepath.Join(hooksDir, "iceage-activate.js") + `"`,
 				}}},
 			},
 			"UserPromptSubmit": []any{
 				map[string]any{"hooks": []any{map[string]any{
 					"type":    "command",
-					"command": `node "` + filepath.Join(hooksDir, "caveman-mode-tracker.js") + `"`,
+					"command": `node "` + filepath.Join(hooksDir, "iceage-mode-tracker.js") + `"`,
 				}}},
 			},
 		},
@@ -134,13 +134,13 @@ func TestInstallReconfiguresMissingStatusline(t *testing.T) {
 		t.Fatal("settings.json missing statusLine after reconfigure")
 	}
 	cmd, _ := sl["command"].(string)
-	if !contains(cmd, filepath.Join(hooksDir, "caveman-statusline.sh")) {
+	if !contains(cmd, filepath.Join(hooksDir, "iceage-statusline.sh")) {
 		t.Errorf("statusLine.command missing statusline path, got %q", cmd)
 	}
 }
 
 // TestUninstallPreservesCustomStatusline verifies that uninstall.sh removes hooks
-// but does not overwrite a custom (non-caveman) statusLine command.
+// but does not overwrite a custom (non-iceage) statusLine command.
 func TestUninstallPreservesCustomStatusline(t *testing.T) {
 	home := t.TempDir()
 	claudeDir := filepath.Join(home, ".claude")
@@ -148,18 +148,18 @@ func TestUninstallPreservesCustomStatusline(t *testing.T) {
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		t.Fatal(err)
 	}
-	for _, name := range []string{"caveman-activate.js", "caveman-mode-tracker.js", "caveman-statusline.sh"} {
+	for _, name := range []string{"iceage-activate.js", "iceage-mode-tracker.js", "iceage-statusline.sh"} {
 		_ = os.WriteFile(filepath.Join(hooksDir, name), nil, 0644)
 	}
-	customCmd := "bash /tmp/custom-status-with-caveman.sh"
+	customCmd := "bash /tmp/custom-status-with-iceage.sh"
 	settings := map[string]any{
 		"statusLine": map[string]any{"type": "command", "command": customCmd},
 		"hooks": map[string]any{
 			"SessionStart": []any{map[string]any{"hooks": []any{map[string]any{
-				"type": "command", "command": `node "` + filepath.Join(hooksDir, "caveman-activate.js") + `"`,
+				"type": "command", "command": `node "` + filepath.Join(hooksDir, "iceage-activate.js") + `"`,
 			}}}},
 			"UserPromptSubmit": []any{map[string]any{"hooks": []any{map[string]any{
-				"type": "command", "command": `node "` + filepath.Join(hooksDir, "caveman-mode-tracker.js") + `"`,
+				"type": "command", "command": `node "` + filepath.Join(hooksDir, "iceage-mode-tracker.js") + `"`,
 			}}}},
 		},
 	}
@@ -181,7 +181,7 @@ func TestUninstallPreservesCustomStatusline(t *testing.T) {
 }
 
 // TestActivateDoesNotNudgeWhenCustomStatuslineExists verifies that
-// caveman-activate.js does not print a statusline setup nudge when a custom
+// iceage-activate.js does not print a statusline setup nudge when a custom
 // statusLine already exists, and that it writes the flag file.
 func TestActivateDoesNotNudgeWhenCustomStatuslineExists(t *testing.T) {
 	home := t.TempDir()
@@ -193,12 +193,12 @@ func TestActivateDoesNotNudgeWhenCustomStatuslineExists(t *testing.T) {
 		"statusLine": map[string]any{"type": "command", "command": "bash /tmp/my-statusline.sh"},
 	})
 
-	stdout, _ := mustRun(t, home, "node", "hooks/caveman-activate.js")
+	stdout, _ := mustRun(t, home, "node", "hooks/iceage-activate.js")
 
 	if contains(stdout, "STATUSLINE SETUP NEEDED") {
 		t.Error("should not nudge for statusline when custom one already exists")
 	}
-	flag := filepath.Join(claudeDir, ".caveman-active")
+	flag := filepath.Join(claudeDir, ".iceage-active")
 	data, err := os.ReadFile(flag)
 	if err != nil {
 		t.Fatalf("flag file not written: %v", err)

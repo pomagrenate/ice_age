@@ -1,14 +1,14 @@
 #!/bin/bash
-# caveman — statusline badge script for Claude Code
-# Reads the caveman mode flag file and outputs a colored badge.
+# iceage — statusline badge script for Claude Code
+# Reads the iceage mode flag file and outputs a colored badge.
 #
 # Usage in ~/.claude/settings.json:
-#   "statusLine": { "type": "command", "command": "bash /path/to/caveman-statusline.sh" }
+#   "statusLine": { "type": "command", "command": "bash /path/to/iceage-statusline.sh" }
 #
 # Plugin users: Claude will offer to set this up on first session.
 # Standalone users: install.sh wires this automatically.
 
-FLAG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/.caveman-active"
+FLAG="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/.iceage-active"
 
 # Refuse symlinks — a local attacker could point the flag at ~/.ssh/id_rsa and
 # have the statusline render its bytes (including ANSI escape sequences) to
@@ -28,8 +28,8 @@ case "$MODE" in
 esac
 
 if [ -z "$MODE" ] || [ "$MODE" = "full" ]; then
-  printf '\033[38;5;172m[CAVEMAN]\033[0m'
+  printf '\033[38;5;172m[ICEAGE]\033[0m'
 else
   SUFFIX=$(printf '%s' "$MODE" | tr '[:lower:]' '[:upper:]')
-  printf '\033[38;5;172m[CAVEMAN:%s]\033[0m' "$SUFFIX"
+  printf '\033[38;5;172m[ICEAGE:%s]\033[0m' "$SUFFIX"
 fi
