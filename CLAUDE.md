@@ -34,7 +34,8 @@ Iceage makes AI coding agents respond in compressed iceage-style prose — cuts 
 | `skills/iceage-commit/SKILL.md` | Iceage commit message behavior. Fully independent skill. |
 | `skills/iceage-review/SKILL.md` | Iceage code review behavior. Fully independent skill. |
 | `skills/iceage-help/SKILL.md` | Quick-reference card. One-shot display, not a persistent mode. |
-| `iceage-compress/SKILL.md` | Compress sub-skill behavior. |
+| `skills/iceage-batch/SKILL.md` | Batch compress behavior. Fully independent skill. |
+| `skills/compress/SKILL.md` | Compress sub-skill behavior. |
 
 ### Auto-generated / auto-synced — do not edit directly
 
@@ -151,7 +152,7 @@ Iceage drops to normal prose for: security warnings, irreversible action confirm
 
 ### iceage-compress
 
-Sub-skill in `iceage-compress/SKILL.md`. Takes file path, compresses prose to iceage style, writes to original path, saves backup at `<filename>.original.md`. Validates headings, code blocks, URLs, file paths, commands preserved. Retries up to 2 times on failure with targeted patches only. Requires Python 3.10+.
+Sub-skill in `skills/compress/SKILL.md`. Takes file path, compresses prose to iceage style, writes to original path, saves backup at `<filename>.original.md`. Validates headings, code blocks, URLs, file paths, commands preserved. Retries up to 2 times on failure with targeted patches only. Requires Python 3.10+.
 
 ### iceage-commit / iceage-review
 

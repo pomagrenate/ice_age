@@ -13,7 +13,7 @@ Improvements to the SKILL.md prompt are welcome — open a PR with before/after 
 
 > **Note:** `iceage/SKILL.md`, `plugins/iceage/skills/iceage/SKILL.md`, `.cursor/skills/iceage/SKILL.md`, and `iceage.skill` are auto-synced by CI after merge. Do not edit them directly.
 > 
-> **Note on compress skill:** If you are modifying the compress skill, edit `iceage-compress/SKILL.md` or `iceage-compress/scripts/`. CI will automatically sync these changes to `skills/compress/` and `plugins/iceage/skills/compress/`.
+> **Note on compress skill:** If you are modifying the compress skill, edit `skills/compress/SKILL.md`. That is the single source of truth.
 
 Small focused change > big rewrite. Iceage like simple.
 

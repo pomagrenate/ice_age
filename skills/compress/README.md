@@ -76,5 +76,5 @@ Compress is built in with the `iceage` plugin. Install `iceage` once, then use `
 If you need local files, the compress skill lives at:
 
 ```bash
-iceage-compress/
+skills/compress/
 ```

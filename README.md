@@ -258,10 +258,10 @@ Compresses existing markdown documentation to iceage style. Validates headings, 
 
 ```bash
 # With backup (default)
-go run ./iceage-compress/go README.md
+go run ./skills/compress/go README.md
 
 # No backup — good for version-controlled files
-go run ./iceage-compress/go --no-backup README.md
+go run ./skills/compress/go --no-backup README.md
 ```
 
 Requires `ANTHROPIC_API_KEY` in environment or `.env.local`. Falls back to `claude` CLI if no key set.
